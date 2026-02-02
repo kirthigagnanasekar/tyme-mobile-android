@@ -14,6 +14,7 @@ public class Hooks {
 
     public static AppiumDriver driver;
 
+    //capabilities to start an appium session
     @Before
     public void setUpDriver() {
         try{
