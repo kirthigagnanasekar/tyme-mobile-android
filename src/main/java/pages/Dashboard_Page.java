@@ -29,6 +29,16 @@ public class Dashboard_Page {
     }
 
     //Bottom Navigation Bar
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uDB82\uDF55\"]")
+    private WebElement myAccountsIcon;
+
+    public void clickMyAccountsIcon() {
+        try {
+            myAccountsIcon.click();
+        } catch (RuntimeException e) {
+            System.out.println("My accounts icon could not be clicked");
+        }
+    }
 
 }
 

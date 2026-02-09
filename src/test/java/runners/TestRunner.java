@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/feature/ExistingLogin.feature",
+        features = "src/test/resources/feature/LoginAndUpdateProfile.feature",
         glue = "stepDefinitions",
         plugin = {
                 "summary",
@@ -17,6 +17,3 @@ import org.junit.runner.RunWith;
 )
 public class TestRunner {
 }
-
-
-//Runner file to run a script

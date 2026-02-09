@@ -27,6 +27,7 @@ public class LoginAsExistingUser {
     }
 
     public void enterEmail(String email) {
+
         loginPage.emailAddressTextBox(email);
     }
 
@@ -41,28 +42,6 @@ public class LoginAsExistingUser {
     public void enterOTP(String otp) {
         loginAuthenticationPage.enterOTP(otp);
     }
-
-//    public void enterLoginOTP(String otp) {
-//        loginAuthentication.enterOTP(otp);
-//    }
-//    public void OtpInput1(String otp) {
-//        loginAuthentication.otpSegment1(otp);
-//    }
-//    public void OtpInput2(String otp) {
-//        loginAuthentication.otpSegment2(otp);
-//    }
-//    public void OtpInput3(String otp) {
-//        loginAuthentication.otpSegment3(otp);
-//    }
-//    public void OtpInput4(String otp) {
-//        loginAuthentication.otpSegment4(otp);
-//    }
-//    public void OtpInput5(String otp) {
-//        loginAuthentication.otpSegment5(otp);
-//    }
-//    public void OtpInput6(String otp) {
-//        loginAuthentication.otpSegment6(otp);
-//    }
 
     public void tapVerify() {
         loginAuthenticationPage.verifyButton();

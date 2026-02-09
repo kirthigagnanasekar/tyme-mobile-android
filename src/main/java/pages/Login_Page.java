@@ -31,6 +31,7 @@ public class Login_Page {
     private WebElement createAccountButton;
 
     public void emailAddressTextBox(String email) {
+
         emailAddressTextBox.sendKeys(email);
     }
 

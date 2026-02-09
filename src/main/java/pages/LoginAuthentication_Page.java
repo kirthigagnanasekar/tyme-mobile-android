@@ -21,24 +21,6 @@ public class LoginAuthentication_Page {
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id='otp-input']")
     private WebElement otpInputs;
 
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[1]")
-//    private WebElement otpInput1;
-//
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[2]")
-//    private WebElement otpInput2;
-//
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[3]")
-//    private WebElement otpInput3;
-//
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[4]")
-//    private WebElement otpInput4;
-//
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[5]")
-//    private WebElement otpInput5;
-//
-//    @AndroidFindBy(xpath = "(//android.view.ViewGroup[@resource-id='otp-input'])[6]")
-//    private WebElement otpInput6;
-
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Resend OTP']")
     private WebElement resendOtp;
 

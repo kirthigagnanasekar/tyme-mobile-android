@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class Hooks {
 
-    public static AppiumDriver driver;
+    public static AndroidDriver driver;
 
     //capabilities to start an appium session
     @Before
@@ -25,9 +25,10 @@ public class Hooks {
             options.setApp("C:/Users/ASUS/Downloads/biovault-dev-release (1).apk");
             options.setAutomationName("UiAutomator2");
             options.setAutoGrantPermissions(true);
-            options.setCapability("noReset", true);
+            options.setCapability("fullReset", true);
+            options.setCapability("noReset", false);
 
-            driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options);
         } catch (MalformedURLException e) {
             //e.printStackTrace();
             throw new RuntimeException(e);
