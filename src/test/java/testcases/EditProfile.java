@@ -56,23 +56,25 @@ public class EditProfile {
     }
 
     //Uploading profile picture
-    public void UpdateProfile(){
+    public void tapOnProfileIcon(){
         editProfilePage.profileIcon();
-        editProfilePage.tapAddPhotoIfAvailable();
-        editProfilePage.selectImageFromGallery();
     }
 
-    public void tapOnStateDropDown(){
-        editProfilePage.stateDropDown();
+    public void addOrRemoveProfile(){
+        editProfilePage.uploadImage();
     }
 
-    public void selectStateFromDropDown(String state){
-        editProfilePage.searchState(state);
-    }
-
-    public void cityZipCodeClearance(){
-        editProfilePage.cityZipCodeClearance();
-    }
+//    public void tapOnStateDropDown(){
+//        editProfilePage.stateDropDown();
+//    }
+//
+//    public void selectStateFromDropDown(String state){
+//        editProfilePage.searchState(state);
+//    }
+//
+//    public void cityZipCodeClearance(){
+//        editProfilePage.cityZipCodeClearance();
+//    }
 
 
 }

@@ -22,7 +22,9 @@ public class Hooks {
             options.setPlatformName("Android");
             options.setDeviceName("Kirthi");
             options.setPlatformVersion("15.0");
-            options.setApp("C:/Users/ASUS/Downloads/biovault-dev-release (1).apk");
+            String appPath = System.getProperty("user.dir")
+                    + "/src/main/resources/Paths/app-release.apk";
+            options.setApp(appPath);
             options.setAutomationName("UiAutomator2");
             options.setAutoGrantPermissions(true);
             options.setCapability("fullReset", true);

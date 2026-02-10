@@ -111,21 +111,16 @@ public class UserLoginProfileUpdateFlow {
         editProfile.UpdateDOB(day, year);
         System.out.println("Date of birth selected");
     }
-//
-//    @When("I tap on profile icon it opens a drop down to to edit photo")
-//    public void i_tap_on_profile_icon(){
-//        editProfile.UpdateProfile();
-//    }
-//
-//    @Then("I updated my profile picture")
-//    public void i_updated_my_profile_picture() {
-//
-//    }
 
-    @When("I update the state as {string}")
-    public void i_update_the_state_as(String state) {
-        editProfile.tapOnStateDropDown();
-        editProfile.selectStateFromDropDown(state);
+    @When("I tap on profile icon it opens a drop down to to edit photo")
+    public void i_tap_on_profile_icon_it_opens_a_drop_down_to_to_edit_photo() {
+        editProfile.tapOnProfileIcon();
+        editProfile.addOrRemoveProfile();
     }
+//    @When("I update the state as {string}")
+//    public void i_update_the_state_as(String state) {
+//        editProfile.tapOnStateDropDown();
+//        editProfile.selectStateFromDropDown(state);
+//    }
 
 }

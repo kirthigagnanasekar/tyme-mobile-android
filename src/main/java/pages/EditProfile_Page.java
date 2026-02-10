@@ -10,6 +10,8 @@ import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.io.File;
@@ -22,9 +24,11 @@ import java.util.Locale;
 public class EditProfile_Page {
 
     AppiumDriver driver;
+    private WebDriverWait wait;
 
     public EditProfile_Page(AppiumDriver driver) {
         this.driver = (AppiumDriver) driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
@@ -86,38 +90,36 @@ public class EditProfile_Page {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE412\"]")
     private WebElement profileIcon;
 
-    public void profileIcon() {
-        profileIcon.click();
-    }
-
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Add photo']")
     private WebElement addPhotoButton;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Remove photo']")
     private WebElement removePhotoButton;
 
-    public void updateProfile() {
-        if(addPhotoButton.isDisplayed() && removePhotoButton.isDisplayed()) {
-            removePhotoButton.click();
-        }
-        else{
-            addPhotoButton.click();
-        }
-    }
-
-    // Step 1: Tap profile icon
-    public void tapProfileIcon() {
+    public void profileIcon() {
         profileIcon.click();
     }
 
-    // Step 2: Tap Add Photo if visible
-    public void tapAddPhotoIfAvailable() {
-        if (driver.findElements(
-                By.xpath("//android.widget.TextView[@text='Add photo']")
-        ).size() > 0) {
-            addPhotoButton.click();
-        }
+    public void choosePhotoFromGoogleImage(){
+
     }
+
+     public void uploadImage(){
+         if (wait.until(ExpectedConditions.visibilityOf(addPhotoButton)).isDisplayed()
+                 && wait.until(ExpectedConditions.visibilityOf(removePhotoButton)).isDisplayed()) {
+
+             wait.until(ExpectedConditions.elementToBeClickable(removePhotoButton)).click();
+         } else {
+
+         }
+   }
+
+
+
+
+
+
+
 
     // Step 3: Select image from system gallery
     public void selectImageFromGallery() {
