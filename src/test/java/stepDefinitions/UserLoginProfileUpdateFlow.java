@@ -1,10 +1,12 @@
 package stepDefinitions;
 
 import io.appium.java_client.AppiumDriver;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.it.Ed;
 import pages.EditProfile_Page;
 import testcases.EditProfile;
 import testcases.LoginAsExistingUser;
@@ -14,11 +16,13 @@ public class UserLoginProfileUpdateFlow {
     AppiumDriver driver;
     LoginAsExistingUser loginAsExistingUser;
     EditProfile editProfile;
+    EditProfile_Page editProfile_page;
 
     public UserLoginProfileUpdateFlow() {
         this.driver = Hooks.getDriver();
         loginAsExistingUser = new LoginAsExistingUser(driver);
         editProfile = new EditProfile(driver);
+        editProfile_page = new EditProfile_Page(driver);
     }
 
     @Given("I launch the TyMe application")
@@ -112,15 +116,28 @@ public class UserLoginProfileUpdateFlow {
         System.out.println("Date of birth selected");
     }
 
-    @When("I tap on profile icon it opens a drop down to to edit photo")
-    public void i_tap_on_profile_icon_it_opens_a_drop_down_to_to_edit_photo() {
-        editProfile.tapOnProfileIcon();
-        editProfile.addOrRemoveProfile();
+    @When("I update the state as {string}")
+    public void i_update_the_state(String state)  {
+        editProfile.clickOnStateDropDown(state);
+        System.out.println("I update the state");
     }
-//    @When("I update the state as {string}")
-//    public void i_update_the_state_as(String state) {
-//        editProfile.tapOnStateDropDown();
-//        editProfile.selectStateFromDropDown(state);
-//    }
 
+
+    @Then("I update the city as {string}")
+    public void iUpdateTheCityAs(String city) {
+        editProfile.enterCity(city);
+        System.out.println("I update the city");
+    }
+
+    @And("I update the zipcode as {string}")
+    public void iUpdateTheZipcodeAs(String zipCode) {
+        editProfile.enterZipCode(zipCode);
+        System.out.println("I update the zipcode");
+    }
+
+    @Then("I tap on Update button")
+    public void iTapOnUpdateButton() {
+        editProfile.tapOnUpdate();
+        System.out.println("I tap on Update button");
+    }
 }

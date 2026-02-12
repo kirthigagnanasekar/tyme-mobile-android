@@ -5,13 +5,19 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class SplashScreen_Page {
 
     protected AppiumDriver driver;
+    private WebDriverWait wait;
 
     public SplashScreen_Page(AppiumDriver driver) {
         this.driver = (AppiumDriver) driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
@@ -48,7 +54,7 @@ public class SplashScreen_Page {
     }
 
     public void skipButtonSplashScreen() {
-        skipButton.click();
+        wait.until(ExpectedConditions.visibilityOf(skipButton)).click();
     }
 
     public void dot1Button() {

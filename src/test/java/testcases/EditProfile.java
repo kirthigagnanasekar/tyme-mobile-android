@@ -55,26 +55,20 @@ public class EditProfile {
         editProfilePage.dobOkButton();
     }
 
-    //Uploading profile picture
-    public void tapOnProfileIcon(){
-        editProfilePage.profileIcon();
+    public void clickOnStateDropDown(String stateName)  {
+        editProfilePage.updateState(stateName);
     }
 
-    public void addOrRemoveProfile(){
-        editProfilePage.uploadImage();
+    public void enterCity(String city) {
+        editProfilePage.cityTextBox(city);
     }
 
-//    public void tapOnStateDropDown(){
-//        editProfilePage.stateDropDown();
-//    }
-//
-//    public void selectStateFromDropDown(String state){
-//        editProfilePage.searchState(state);
-//    }
-//
-//    public void cityZipCodeClearance(){
-//        editProfilePage.cityZipCodeClearance();
-//    }
+    public void enterZipCode(String zipCode) {
+        editProfilePage.zipCodeTextBox(zipCode);
+    }
 
+    public void tapOnUpdate(){
+        editProfilePage.updateButton();
+    }
 
 }

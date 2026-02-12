@@ -19,10 +19,12 @@ Feature: Login as Existing TyMe Member
     Then the calendar picker opens
     When I choose the date "15" May "2002" and confirms the date
 
-    When I tap on profile icon it opens a drop down to to edit photo
+#    When I tap on profile icon it opens a drop down to to edit photo "Profile"
 #    Then I updated my profile picture
 
-#    When I update the state as "California"
-#    Then the city and zipcode fields are cleared
-#
+    When I update the state as "California"
+    Then I update the city as "Los Angeles"
+    And I update the zipcode as "90001"
+    Then I tap on Update button
+
 

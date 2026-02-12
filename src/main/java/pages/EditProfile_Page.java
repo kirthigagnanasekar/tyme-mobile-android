@@ -8,6 +8,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class EditProfile_Page {
@@ -36,35 +38,65 @@ public class EditProfile_Page {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Profile']")
     private WebElement profilePageHeading;
 
-    public void profilePageHeading() {
-        profilePageHeading.isDisplayed();
-    }
-
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uDB83\uDE18\"]")
     private WebElement datePickerIcon;
-
-    public void datePickerIcon() {
-        datePickerIcon.click();
-    }
 
     @AndroidFindBy(id = "android:id/date_picker_header_year")
     private WebElement YearPickerHeader;
 
-    public void yearPickerHeaderClick() {
-        YearPickerHeader.click();
-    }
-
-    public void YearPickerHeader() {
-        YearPickerHeader.isDisplayed();
-    }
-
     @AndroidFindBy(id = "android:id/button1")
     private WebElement dobOkButton;
 
+    /* Profile picture updation */
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE412\"]")
+    private WebElement profileIcon;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Add photo']")
+    private WebElement addPhotoButton;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Remove photo']")
+    private WebElement removePhotoButton;
+
+    //State Drop down Handling
+    @AndroidFindBy(xpath = "(//android.view.ViewGroup//android.widget.TextView[@text='\uEB33'])")
+    private WebElement stateDropdown;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[@text=\"Search State\"]")
+    public WebElement searchStateInput;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[@text=\"Select City\"]")
+    public WebElement cityTextBox;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[@text=\"Enter your zip code\"]")
+    public WebElement zipCodeTextBox;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE314\"]")
+    public WebElement backButton;
+
+    @AndroidFindBy(accessibility = "Update")
+    private WebElement updateButton;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE314\"]")
+    private WebElement updateButton_PopUp;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Tyme member updated successfully\"]")
+    private WebElement UpdateSuccessToaster;
+
+    public void profilePageHeading() {
+
+        profilePageHeading.isDisplayed();
+    }
+
     public void dobOkButton() {
+
         dobOkButton.click();
     }
 
+
+    public void datePickerIcon() {
+
+        datePickerIcon.click();
+    }
 
     public void selectYear(String year) {
         //YearPickerHeader.click();
@@ -86,102 +118,50 @@ public class EditProfile_Page {
         selectDay(day);
     }
 
-    /* Profile picture updation */
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE412\"]")
-    private WebElement profileIcon;
-
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Add photo']")
-    private WebElement addPhotoButton;
-
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Remove photo']")
-    private WebElement removePhotoButton;
-
-    public void profileIcon() {
-        profileIcon.click();
+    public void yearPickerHeaderClick() {
+        YearPickerHeader.click();
     }
 
-    public void choosePhotoFromGoogleImage(){
+    public void YearPickerHeader() {
+
+        YearPickerHeader.isDisplayed();
+    }
+
+    public void updateState(String stateName) {
+        // 1. Scroll to State field (Fixed syntax)
+        driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
+                        ".scrollIntoView(new UiSelector().textContains(\"State*\"))"
+        ));
+
+        // 2. Click Dropdown (Fixed indexing)
+        String stateDropdownXpath = "(//android.view.ViewGroup[contains(@content-desc, '\uEB33')])[1]";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(stateDropdownXpath))).click();
+
+        // 3. Search and Select
+        wait.until(ExpectedConditions.visibilityOf(searchStateInput)).sendKeys(stateName);
+        String resultXpath = "//android.view.ViewGroup[contains(@content-desc, '" + stateName + "')]";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(resultXpath))).click();
 
     }
 
-     public void uploadImage(){
-         if (wait.until(ExpectedConditions.visibilityOf(addPhotoButton)).isDisplayed()
-                 && wait.until(ExpectedConditions.visibilityOf(removePhotoButton)).isDisplayed()) {
+    public void cityTextBox(String cityName) {
+        cityTextBox.clear();
+        cityTextBox.sendKeys(cityName);
+    }
 
-             wait.until(ExpectedConditions.elementToBeClickable(removePhotoButton)).click();
-         } else {
+    public void zipCodeTextBox(String zipCodeInput) {
+       zipCodeTextBox.clear();
+       zipCodeTextBox.sendKeys(zipCodeInput);
+    }
 
-         }
-   }
-
-
-
-
-
-
-
-
-    // Step 3: Select image from system gallery
-    public void selectImageFromGallery() {
-
-        // Handle permission popup (if appears)
-        try {
-            driver.findElement(
-                    By.id("com.android.permissioncontroller:id/permission_allow_button")
-            ).click();
-        } catch (Exception ignored) {
+    public void updateButton() {
+        if(updateButton.isEnabled()){
+            updateButton.click();
+            updateButton_PopUp.click();
         }
-
-        // Select FIRST image thumbnail from gallery
-        driver.findElement(
-                By.xpath("(//android.widget.ImageView)[1]")
-        ).click();
+        else{
+            backButton.click();
+        }
     }
-
-    //State Drop down Handling
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uEB33\"][1]")
-    private WebElement stateDropDown;
-
-    public void stateDropDown() {
-        driver.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true))" +
-                                ".scrollIntoView(new UiSelector().textContains(\"State\"))"
-                )
-        );
-        stateDropDown.click();
-    }
-
-    @AndroidFindBy(xpath = "//android.widget.EditText[@text='Search State']")
-    private WebElement searchState;
-
-
-    public void searchState(String state) {
-        searchState.sendKeys(state);
-        driver.findElement(By.xpath("//android.widget.TextView[@text= ' + state + ']")).click();
-    }
-
-    @AndroidFindBy(xpath = "//android.widget.EditText[@text='Select City']")
-    private WebElement cityTextBox;
-
-    @AndroidFindBy(xpath = "//android.widget.EditText[@text='Enter your zip code']")
-    private WebElement zipCodeTextBox;
-
-    public void cityZipCodeClearance(){
-        String cityFieldValue = cityTextBox.getText();
-        cityFieldValue.isEmpty();
-        String zipCodeFieldValue = zipCodeTextBox.getText();
-        zipCodeFieldValue.isEmpty();
-    }
-
-    public void cityTextBox(String city){
-        cityTextBox.sendKeys(city);
-    }
-
-    public void zipCodeTextBox(String zipCode){
-        zipCodeTextBox.sendKeys(zipCode);
-    }
-
-
-    }
-
+}
