@@ -34,7 +34,6 @@ public class EditProfile_Page {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Profile']")
     private WebElement profilePageHeading;
 
@@ -76,7 +75,7 @@ public class EditProfile_Page {
     @AndroidFindBy(accessibility = "Update")
     private WebElement updateButton;
 
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE314\"]")
+    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Update']")
     private WebElement updateButton_PopUp;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Tyme member updated successfully\"]")
