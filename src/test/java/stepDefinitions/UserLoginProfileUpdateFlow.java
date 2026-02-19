@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
@@ -10,6 +11,10 @@ import io.cucumber.java.it.Ed;
 import pages.EditProfile_Page;
 import testcases.EditProfile;
 import testcases.LoginAsExistingUser;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 public class UserLoginProfileUpdateFlow {
 
@@ -97,6 +102,21 @@ public class UserLoginProfileUpdateFlow {
         System.out.println("I land on the edit profile page");
     }
 
+    @Then("I change the First Name as {string}")
+    public void iChangeTheFirstNameAs(String firstName) {
+        editProfile.enterFirstName(firstName);
+    }
+
+    @And("I change the Last Name as {string}")
+    public void iChangeTheLastNameAs(String lastName) {
+        editProfile.enterLastName(lastName);
+    }
+
+    @Then("I updated the gender")
+    public void iUpdatedTheGender() {
+        editProfile.UpdateGender();
+    }
+
     @When("I tap on Date of birth field")
     public void i_tap_on_Date_of_birth_field() {
         editProfile.TapOnDatePicker();
@@ -139,5 +159,21 @@ public class UserLoginProfileUpdateFlow {
     public void iTapOnUpdateButton() {
         editProfile.tapOnUpdate();
         System.out.println("I tap on Update button");
+    }
+
+    @When("I upload image from gallery")
+    public void iUploadImageFromGallery() throws IOException, InterruptedException {
+        editProfile.uploadImage();
+        System.out.println("Element is Clicked");
+    }
+
+    @Then("I update the email address as {string}")
+    public void iUpdateTheEmailAddressAs(String emailAddress) {
+
+    }
+
+    @Then("I update a phone number as {string}")
+    public void iUpdateAPhoneNumberAs(String phoneNumber) {
+
     }
 }

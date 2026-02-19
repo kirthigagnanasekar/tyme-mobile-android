@@ -8,6 +8,8 @@ import pages.Dashboard_Page;
 import pages.EditProfile_Page;
 import pages.MyAccount_Page;
 
+import java.io.IOException;
+
 public class EditProfile {
 
     AppiumDriver driver;
@@ -36,6 +38,18 @@ public class EditProfile {
 
     public void ProfilePageLanding() {
         editProfilePage.profilePageHeading();
+    }
+
+    public void enterFirstName(String firstName) {
+        editProfilePage.enterFirstName(firstName);
+    }
+
+    public void enterLastName(String lastName) {
+        editProfilePage.enterLastName(lastName);
+    }
+
+    public void UpdateGender() {
+        editProfilePage.chooseGender();
     }
 
     public void TapOnDatePicker(){
@@ -69,6 +83,11 @@ public class EditProfile {
 
     public void tapOnUpdate(){
         editProfilePage.updateButton();
+    }
+
+    public void uploadImage() throws IOException, InterruptedException {
+      editProfilePage.uploadProfileImageFromResources("profile.png");
+
     }
 
 }

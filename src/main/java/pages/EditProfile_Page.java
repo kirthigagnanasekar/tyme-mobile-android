@@ -3,25 +3,17 @@ package pages;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
 import java.io.File;
-import java.nio.file.Files;
+import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Locale;
 
 public class EditProfile_Page {
 
@@ -37,6 +29,21 @@ public class EditProfile_Page {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Profile']")
     private WebElement profilePageHeading;
 
+    @AndroidFindBy(xpath = "//android.widget.EditText[@hint='First Name']")
+    private WebElement FirstNameTextBox;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[@hint='Last Name']")
+    private WebElement LastNameTextBox;
+
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[contains(@content-desc,'\uEB33')]")
+    private WebElement GenderDropDown;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Male\"]")
+    private WebElement MaleFromDropDown;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Female\"]")
+    private WebElement FemaleFromDropDown;
+
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uDB83\uDE18\"]")
     private WebElement datePickerIcon;
 
@@ -47,7 +54,7 @@ public class EditProfile_Page {
     private WebElement dobOkButton;
 
     /* Profile picture updation */
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"\uE412\"]")
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"\uE412\"]")
     private WebElement profileIcon;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Add photo']")
@@ -55,6 +62,12 @@ public class EditProfile_Page {
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Remove photo']")
     private WebElement removePhotoButton;
+
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Media grid\"]/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View")
+    private WebElement mediaGrid;
+
+    @AndroidFindBy(xpath = "//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[6]/android.view.View/android.view.View[3]/android.widget.Button")
+    private WebElement doneButtonFromGPhotos;
 
     //State Drop down Handling
     @AndroidFindBy(xpath = "(//android.view.ViewGroup//android.widget.TextView[@text='\uEB33'])")
@@ -86,6 +99,27 @@ public class EditProfile_Page {
         profilePageHeading.isDisplayed();
     }
 
+    public void enterFirstName(String firstName) {
+        FirstNameTextBox.clear();
+        FirstNameTextBox.sendKeys(firstName);
+    }
+
+    public void enterLastName(String lastName) {
+        LastNameTextBox.clear();
+        LastNameTextBox.sendKeys(lastName);
+    }
+
+    public void chooseGender() {
+
+        if (GenderDropDown.getText().equals("female")) {
+            GenderDropDown.click();
+            MaleFromDropDown.click();
+        } else {
+            GenderDropDown.click();
+            FemaleFromDropDown.click();
+        }
+    }
+
     public void dobOkButton() {
 
         dobOkButton.click();
@@ -99,9 +133,17 @@ public class EditProfile_Page {
 
     public void selectYear(String year) {
         //YearPickerHeader.click();
-        driver.findElement(
-                By.xpath("//android.widget.TextView[@text='" + year + "']")
-        ).click();
+        String currentYear = YearPickerHeader.getText();
+        if (!currentYear.equals(year)) {
+            driver.findElement(
+                    By.xpath("//android.widget.TextView[@text='" + year + "']")
+            ).click();
+        } else {
+            String updateYear = String.valueOf(Integer.parseInt(currentYear) - 1);
+            driver.findElement(
+                    By.xpath("//android.widget.TextView[@text='" + updateYear + "']")
+            ).click();
+        }
     }
 
     // Select day dynamically
@@ -150,17 +192,99 @@ public class EditProfile_Page {
     }
 
     public void zipCodeTextBox(String zipCodeInput) {
-       zipCodeTextBox.clear();
-       zipCodeTextBox.sendKeys(zipCodeInput);
+        zipCodeTextBox.clear();
+        zipCodeTextBox.sendKeys(zipCodeInput);
     }
 
     public void updateButton() {
-        if(updateButton.isEnabled()){
+        if (updateButton.isEnabled()) {
             updateButton.click();
             updateButton_PopUp.click();
-        }
-        else{
+        } else {
             backButton.click();
         }
     }
+
+    //image upload
+    private void handlePermissions() {
+        String[] permissionTexts = {"Allow", "Allow all", "Grant"};
+        for (String text : permissionTexts) {
+            try {
+                driver.findElement(AppiumBy.xpath("//*[@text='" + text + "']")).click();
+                break;
+            } catch (Exception e) {
+                // Continue if no permission dialog
+            }
+        }
+    }
+
+    public boolean visibilityOfAddButton(){
+        return addPhotoButton.isDisplayed();
+    }
+
+    private void scrollToMediaItem() {
+        String uiAutomator = "new UiScrollable(new UiSelector().description(\"Media grid\"))."
+                + "scrollIntoView(new UiSelector().className(\"android.view.View\").instance(1))";
+        driver.findElement(AppiumBy.androidUIAutomator(uiAutomator));
+    }
+
+    public void uploadProfileImageFromResources(String imageName) throws IOException, InterruptedException {
+
+        wait.until(ExpectedConditions.visibilityOf(profileIcon));
+        wait.until(ExpectedConditions.elementToBeClickable(profileIcon)).click();
+
+        // 1. Push image from resources to device
+        File resourceDir = new File("src/test/resources/images");
+        File imageFile = new File(resourceDir, imageName);
+        ((AndroidDriver) driver).pushFile("/sdcard/Pictures/" + imageName, imageFile);
+
+        try {
+            // If profile exists, Add & Remove buttons will be visible
+            wait.until(ExpectedConditions.visibilityOf(addPhotoButton));
+
+            // 1. Push image from resources to device
+//            File resourceDir = new File("src/test/resources/images");
+//            File imageFile = new File(resourceDir, imageName);
+//            ((AndroidDriver) driver).pushFile("/sdcard/Pictures/" + imageName, imageFile);
+
+            // 2. Click Add Photo -> opens gallery
+            addPhotoButton.click();
+
+            // 3. Handle permission dialogs (if any)
+            handlePermissions();
+
+            // 4. Scroll and select media item
+            scrollToMediaItem();
+            wait.until(ExpectedConditions.visibilityOf(mediaGrid)).click();
+
+            // 5. Click Done from Google Photos
+            wait.until(ExpectedConditions.visibilityOf(doneButtonFromGPhotos)).click();
+
+            // 6. Again click profile icon to remove photo
+            wait.until(ExpectedConditions.elementToBeClickable(profileIcon)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(removePhotoButton)).click();
+
+        } catch (Exception e) {
+            // If Add button is not visible, gallery is opened directly
+
+            // 1. Push image from resources to device
+//            File resourceDir = new File("src/test/resources/images");
+//            File imageFile = new File(resourceDir, imageName);
+//            ((AndroidDriver) driver).pushFile("/sdcard/Pictures/" + imageName, imageFile);
+
+            // 2. Handle permission dialogs (if any)
+            handlePermissions();
+
+            // 3. Scroll and select media item
+            scrollToMediaItem();
+            wait.until(ExpectedConditions.visibilityOf(mediaGrid));
+            wait.until(ExpectedConditions.elementToBeClickable(mediaGrid)).click();
+
+            // 4. Click Done from Google Photos
+            wait.until(ExpectedConditions.visibilityOf(doneButtonFromGPhotos)).click();
+        }
+    }
+
+
+
 }

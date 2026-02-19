@@ -18,7 +18,7 @@ public class MyAccount_Page {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='My Account']")
     WebElement myAccountPageHeading;
 
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='My Profile']")
+        @AndroidFindBy(xpath = "//android.widget.TextView[@text='My Profile']")
     private WebElement myProfileOption;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='My Subscription']")
