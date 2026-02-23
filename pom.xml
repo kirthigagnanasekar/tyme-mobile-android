@@ -103,16 +103,32 @@
             <version>2.0.13</version>
         </dependency>
 
+        <!-- Extent Report -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.1</version>
+        </dependency>
 
-        <!--        &lt;!&ndash; ExtentReports Cucumber7 Adapter &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>tech.grasshopper</groupId>-->
-        <!--            <artifactId>extentreports-cucumber7-adapter</artifactId>-->
-        <!--            <version>1.13.0</version>-->
-        <!--        </dependency>-->
+        <!-- Correct Adapter for Cucumber 7.x -->
+        <dependency>
+            <groupId>tech.grasshopper</groupId>
+            <artifactId>extentreports-cucumber7-adapter</artifactId>
+            <version>1.14.0</version>
+        </dependency>
 
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Force patched version to remove CVEs -->
+            <dependency>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>2.5.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

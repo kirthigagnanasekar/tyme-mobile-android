@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/cucumber-reports/cucumber-report.html",
                 "json:target/cucumber-reports/cucumber-report.json",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
         }
 )
 public class TestRunner {
