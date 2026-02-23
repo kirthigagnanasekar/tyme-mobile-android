@@ -30,8 +30,8 @@ public class Hooks {
             options.setCapability("fullReset", true);
             options.setCapability("noReset", false);
 
-            //driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options);
-            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options);
+          //  driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
         } catch (MalformedURLException e) {
             //e.printStackTrace();
             throw new RuntimeException(e);
